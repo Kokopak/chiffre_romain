@@ -8,14 +8,13 @@ def to_romain(nbr):
 
     if nbr >= 5000 :
         return "entrer un nombre < 5000"
-    ok = True
-    while ok:
-        try :
-            val = max((x for x in valeurs.iterkeys() if x <= nbr))
-            lis_val.append(valeurs[val])
-            nbr -= val
-        except ValueError:
-            ok = False
+
+    while nbr > 0 :
+        for x in sorted(valeurs.iterkeys(), reverse=True) :
+            if nbr >= x :
+                lis_val.append(valeurs[x])
+                nbr -= x
+                break
     chif_rom = "".join(lis_val)
 
     #Gère le cas des "soustractions"
