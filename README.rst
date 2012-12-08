@@ -7,6 +7,6 @@ nombre romain.
 Utilisation
 -----------
 
-Dans un terminal, entrer les commandes suivantes : ::
+Dans un terminal, entrer la commande suivante : ::
     
     python romains.py
