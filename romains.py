@@ -3,44 +3,30 @@
 
 
 def to_romain(nbr):
-    val_rom = list("IVXLCDM")
-    val_chif = [1, 5, 10, 50, 100, 500, 1000]
-
-    valeurs = dict(zip(val_chif, val_rom))
-
+    valeurs = {1: 'I', 100: 'C', 5: 'V', 1000: 'M', 10: 'X', 50: 'L', 500: 'D'}
     lis_val = []
 
-    if nbr < 5000 :
-        ok = True
-        while ok:
-            try :
-                val = max((x for x in val_chif if x <= nbr))
-                lis_val.append(valeurs[val])
-                nbr -= val
-            except ValueError:
-                ok = False
+    if nbr >= 5000 :
+        return "entrer un nombre < 5000"
+    ok = True
+    while ok:
+        try :
+            val = max((x for x in valeurs.iterkeys() if x <= nbr))
+            lis_val.append(valeurs[val])
+            nbr -= val
+        except ValueError:
+            ok = False
+    chif_rom = "".join(lis_val)
 
-        chif_rom = "".join(lis_val)
+    #Gère le cas des "soustractions"
+    conv = {"VIIII": "IX", "IIII": "IV", "XXXX": "XL", 
+            "LXL": "XC", "CCCC": "CD", "DCD": "CM"}
 
-        #Gère le cas des "soustractions"
-        if "VIIII" in chif_rom:
-            chif_rom = chif_rom.replace("VIIII", "IX")
-        if "IIII" in chif_rom:
-            chif_rom = chif_rom.replace("IIII", "IV")
-        if "XXXX" in chif_rom:
-            chif_rom = chif_rom.replace("XXXX", "XL")
-        if "LXL" in chif_rom:
-            chif_rom = chif_rom.replace("LXL", "XC")
-        if "CCCC" in chif_rom:
-            chif_rom = chif_rom.replace("CCCC", "CD")
-        if "DCD" in chif_rom:
-            chif_rom = chif_rom.replace("DCD", "CM")
-        return chif_rom
+    for m in conv.iterkeys() :
+        if m in chif_rom :
+            chif_rom = chif_rom.replace(m, conv[m])
 
-    else :
-        return "Conversion impossible !"
-
+    return chif_rom
 
 nbr = input("Nombre : ")
-
 print("Chiffre romain : %s" % to_romain(nbr))
