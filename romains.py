@@ -3,29 +3,36 @@
 
 
 def to_romain(nbr):
-    valeurs = {1: 'I', 100: 'C', 5: 'V', 1000: 'M', 10: 'X', 50: 'L', 500: 'D'}
-    lis_val = []
+    valeurs = [
+        (1000, 'M'),
+        (500, 'D'),
+        (100, 'C'),
+        (50, 'L'),
+        (10, 'X'),
+        (5, 'V'),
+        (1, 'I')
+    ]
 
     if nbr >= 5000 :
         return "entrer un nombre < 5000"
 
+    rom = ""
     while nbr > 0 :
-        for x in sorted(valeurs.iterkeys(), reverse=True) :
-            if nbr >= x :
-                lis_val.append(valeurs[x])
-                nbr -= x
+        for n, r in valeurs :
+            if nbr >= n :
+                rom += r
+                nbr -= n
                 break
-    chif_rom = "".join(lis_val)
 
     #Gère le cas des "soustractions"
-    conv = {"VIIII": "IX", "IIII": "IV", "XXXX": "XL", 
-            "LXL": "XC", "CCCC": "CD", "DCD": "CM"}
+    conv = [("VIIII", "IX") , ("IIII", "IV"), ("XXXX", "XL"), 
+            ("LXL", "XC"), ("CCCC", "CD"), ("DCD", "CM")]
 
-    for m in conv.iterkeys() :
-        if m in chif_rom :
-            chif_rom = chif_rom.replace(m, conv[m])
+    for m, n in conv :
+        if m in rom :
+            rom = rom.replace(m, n)
 
-    return chif_rom
+    return rom
 
 nbr = input("Nombre : ")
 print("Chiffre romain : %s" % to_romain(nbr))
