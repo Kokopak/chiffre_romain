@@ -1,60 +1,60 @@
 #!/usr/bin/env python
 #-*- coding: utf-8-*-
+import random
 
+valeurs = [
+    (1000, 'M'),
+    (500, 'D'),
+    (100, 'C'),
+    (50, 'L'),
+    (10, 'X'),
+    (5, 'V'),
+    (1, 'I')
+]
+conv = [("VIIII", "IX") , ("IIII", "IV"), ("XXXX", "XL"), 
+        ("LXL", "XC"), ("CCCC", "CD"), ("DCD", "CM")]
+
+conv_inv= [("IX", 9) , ("IV", 4), ("XL", 40), 
+        ("XC", 90), ("CD", 400), ("CM", 900)]
 
 def to_romain(nbr):
-    ty = type(nbr)
+    rom = ""
+    if nbr >= 5000 :
+        return "entrer un nombre < 5000"
 
-    valeurs = [
-        (1000, 'M'),
-        (500, 'D'),
-        (100, 'C'),
-        (50, 'L'),
-        (10, 'X'),
-        (5, 'V'),
-        (1, 'I')
-    ]
-    conv = [("VIIII", "IX") , ("IIII", "IV"), ("XXXX", "XL"), 
-            ("LXL", "XC"), ("CCCC", "CD"), ("DCD", "CM")]
+    while nbr > 0 :
+        for n, r in valeurs :
+            if nbr >= n :
+                rom += r
+                nbr -= n
+                break
+    for m, n in conv :
+        if m in rom :
+            rom = rom.replace(m, n)
 
-    if ty == int:
-        rom = ""
-        if nbr >= 5000 :
-            return "entrer un nombre < 5000"
+    return rom
 
-        while nbr > 0 :
-            for n, r in valeurs :
-                if nbr >= n :
-                    rom += r
-                    nbr -= n
-                    break
-        for m, n in conv :
-            if m in rom :
-                rom = rom.replace(m, n)
+def from_romain(nbr):
+    somme = 0
+    dic_val = {let: val for val, let in valeurs}
+    for motif, valeur in conv_inv:
+        if motif in nbr:
+            nbr = nbr.replace(motif, "")
+            somme += valeur
+    for let in nbr:
+        somme += dic_val[let]
+    return somme
 
-        return rom
+def test() :
+    for nb in range(1,5000) :
+        test = from_romain(to_romain(nb))
+        if nb != test :
+            print nb, test, to_romain(nb)
 
-    else : 
-        somme = 0
-        for con in conv:
-            if con[1] in nbr:
-                nbr = nbr.replace(con[1], con[0])
-        for let in nbr:
-            for val in valeurs:
-                if let in val:
-                    somme += val[0]
-        return somme
-
-
-print """Modes :
-    1. Chiffre romain => nombre
-    2. Nombre => chiffre romain"""
-
-choix = input("Choix : ")
-
-if choix == 1 :
-    nbr =  raw_input("Nombre (en chiffre romain) : ")
-    print "%s correspond à %d" % (nbr, to_romain(nbr))
-elif choix == 2 :
-    nbr =  input("Nombre : ")
+nbr =  raw_input("Entrée : ")
+try :
+    nbr = int(nbr)
+except ValueError :
+    print "%s correspond à %d" % (nbr, from_romain(nbr))
+else :
     print "%d correspond à %s" % (nbr, to_romain(nbr))
