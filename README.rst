@@ -1,8 +1,8 @@
 Résumé
 ------
 
-Simple programme qui demande un nombre à l'utilisateur et qui le convertit en
-nombre romain.
+Simple programme qui fait la conversion chiffre
+romain => nombre ou nombre => chiffre romain. 
 
 Utilisation
 -----------
