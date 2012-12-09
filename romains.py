@@ -46,7 +46,7 @@ def to_romain(nbr):
         return somme
 
 
-print """ Modes :
+print """Modes :
     1. Chiffre romain => nombre
     2. Nombre => chiffre romain"""
 
